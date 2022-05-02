@@ -1,0 +1,4 @@
+node_modules/
+TEMP/
+deployment/
+.env
