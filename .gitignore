@@ -2,3 +2,4 @@ node_modules/
 TEMP/
 deployment/
 .env
+.DS_Store
