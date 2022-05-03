@@ -4,8 +4,9 @@ const path = require('path');
 // Helper Functions/Variables
 
 const trashBinPath = require('./helpers/trash-bin-path');
+const tempDirToWatch = '/Users/andrewbradt/Desktop/test';
 const audioRegexp = /\*.aif/i;
-const watchTrashBinForChanges = require('./helpers/watch-dir-for-changes')(trashBinPath, audioRegexp);
+const watchTrashBinForChanges = require('./helpers/watch-dir-for-changes')(tempDirToWatch, audioRegexp);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -15,25 +16,28 @@ if (require('electron-squirrel-startup')) {
 
 const createContext = (label, onClick) => Menu.buildFromTemplate([{label, click: onClick}]);
 
-const createOffContext = (tray) => {
+const createOffContext = (tray, abort) => {
   const currentContext = createContext('off', () => {
     console.log('off');
+    abort();
     tray.setContextMenu(createOnContext(tray));
   });
   return currentContext;
 };
 
 const createOnContext = (tray) => {
+  const {beginWatch, abortWatch} = watchTrashBinForChanges();
   const currentContext = createContext('on', () => {
     console.log('on');
-    tray.setContextMenu(createOffContext(tray));
+    beginWatch();
+    tray.setContextMenu(createOffContext(tray, abortWatch));
   });
   return currentContext;
 };
 
 const createTray = () => {
   const tray = new Tray(path.join(__dirname, 'assets', 'icon_tray.png'));
-  const defaultContext = createOffContext(tray);
+  const defaultContext = createOnContext(tray);
   tray.setContextMenu(defaultContext);
 };
 
