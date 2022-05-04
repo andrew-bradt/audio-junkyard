@@ -1,6 +1,6 @@
 const {watch} = require('fs/promises');
 
-module.exports = (path, regexp) => () => {
+module.exports = ({path, filter, callback}) => () => {
   const ac = new AbortController();
   const {signal} = ac;
 
@@ -9,9 +9,9 @@ module.exports = (path, regexp) => () => {
   const beginWatch = async() => {
     try {
       const watcher = watch(path, {signal, recursive: true});
-
-      for await (const event of watcher) {
-        console.log(event);
+      
+      for await (const {eventType, filename} of watcher) {
+        callback(filename);
       }
       
     } catch (err) {
