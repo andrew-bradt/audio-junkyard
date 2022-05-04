@@ -11,7 +11,7 @@ module.exports = ({path, filter, callback}) => () => {
       const watcher = watch(path, {signal, recursive: true});
       
       for await (const {eventType, filename} of watcher) {
-        callback(filename);
+        filter(filename) && callback(filename);
       }
       
     } catch (err) {

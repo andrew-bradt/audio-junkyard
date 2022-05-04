@@ -8,7 +8,7 @@ const tempDirToWatch = '/Users/andrewbradt/Desktop/test';
 const isAudio = require('./helpers/is-audio');
 const watchTrashBinForChanges = require('./helpers/watch-dir-for-changes')({
   path: tempDirToWatch,
-  filter: isAudio,
+  filter: (name) => isAudio(name),
   callback: (name) => console.log(name)
 });
 
