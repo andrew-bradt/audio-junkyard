@@ -5,7 +5,7 @@ const path = require('path');
 
 const trashBinPath = require('./helpers/trash-bin-path');
 const tempDirToWatch = '/Users/andrewbradt/Desktop/test';
-const audioRegexp = /\*.aif/i;
+const audioRegexp = /^.*\.(aif|mp3|wav|aiff|wave)$/i;
 const watchTrashBinForChanges = require('./helpers/watch-dir-for-changes')(tempDirToWatch, audioRegexp);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
