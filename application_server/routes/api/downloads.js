@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/application', (req, res) => {
-  res.send('TODO: /api/downloads/application');
+  res.download('downloads/Application.zip');
 });
 
 router.get('/audio/:date_range', (req, res) => {
