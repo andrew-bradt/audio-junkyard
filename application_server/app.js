@@ -7,6 +7,8 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const uploadRouter = require('./routes/upload');
 const downloadApplicationRouter = require('./routes/download-application');
+const downloadsAPIRouter = require('./routes/api/downloads');
+const uploadAPIRouter = require('./routes/api/upload');
 
 const app = express();
 
@@ -20,9 +22,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Page Routes
 app.use('/', indexRouter);
 app.use('/upload', uploadRouter);
 app.use('/download-application', downloadApplicationRouter);
+
+// API Routes
+app.use('/api/downloads', downloadsAPIRouter);
+app.use('/api/upload', uploadAPIRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
