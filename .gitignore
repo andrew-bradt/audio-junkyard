@@ -3,3 +3,5 @@ TEMP/
 deployment/
 .env
 .DS_Store
+application_server/uploads/grains/*
+application_server/uploads/user_audio/*
