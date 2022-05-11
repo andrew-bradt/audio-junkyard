@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const {uploadFiles} = require('../../helpers/s3-helpers');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
@@ -17,7 +18,11 @@ const upload = multer({storage});
 
 router.post('/', upload.single('audio'), async(req, res) => {
   await uploadFiles(req.file, 'user_audio');
-  res.send('api/upload');
+  fs.unlink(req.file.path, (err) => {
+    if (!err) {
+      res.send('api/upload');
+    }
+  });
 });
 
 module.exports = router;
