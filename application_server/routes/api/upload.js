@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const {uploadFiles} = require('../../helpers/s3-helpers');
 
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
@@ -8,13 +9,14 @@ const storage = multer.diskStorage({
     cb(null, name);
   },
   destination: (req, file, cb) => {
-    cb(null, './uploads');
-  },
+    cb(null, 'uploads/user_audio');
+  }
 });
 
 const upload = multer({storage});
 
-router.post('/', upload.array('audio'), (req, res) => {
+router.post('/', upload.single('audio'), async(req, res) => {
+  await uploadFiles(req.file, 'user_audio');
   res.send('api/upload');
 });
 
