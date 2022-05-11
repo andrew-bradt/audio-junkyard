@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, nativeImage } = require('electron');
+const { app, BrowserWindow, Tray, Menu } = require('electron');
 const path = require('path');
 
 // Helper Functions/Variables
